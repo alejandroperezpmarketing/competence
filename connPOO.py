@@ -5,6 +5,7 @@ Created on 27 feb. 2024
 '''
 import psycopg2
 import settings
+import json
 
 class Conn():
     conn=None
@@ -16,8 +17,21 @@ class Conn():
         self._host = None
         self._database = None
 
+       
 
-    
+    def __repr__(self):
+        report = {
+           'user': self._user,
+           'password': '*******',
+           'port': self._port,
+           'host': self._host,
+           'database': self._database
+           }
+        
+        report = json.dumps(report, indent=4)
+        
+        return report
+
     #Properties ******
     
     #DATABASE **************
@@ -61,28 +75,3 @@ class Conn():
         return self._port
     host = property(fget=_get_host,fset=_set_host)
 
-    
-    #SYSTEM METHODS
-    
-    def _connect(self, user, password, host, port, database):
-        psycopg2.connect(database=self._database,
-                         user=user,
-                         password=self._password,
-                         host=self._host,
-                         port=self._port)
-        
-
-    # USER METHODS
-        
-    def connectdb(self):
-        self._connect(self._user, self._password, self._host, self._port, self._database)
-
-    def close(self):
-        self.conn.close()
-    
-
-
-
-
-
-        
