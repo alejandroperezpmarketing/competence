@@ -1,0 +1,8 @@
+
+
+self.conn = psycopg2.connect(database=settings.DATABASE, 
+                      user=settings.USER, 
+                      password=settings.PASSWORD, host=settings.HOST, 
+                      port=settings.PORT)
+        
+self.cursor=self.conn.cursor()
