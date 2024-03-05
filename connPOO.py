@@ -67,9 +67,9 @@ class Conn():
     #HOST ***********
 
     def _set_host(self,code):
-        self._port = code
+        self._host = code
     def _get_host(self):
-        return self._port
+        return self._host
     host = property(fget=_get_host,fset=_set_host)
     
     
