@@ -54,7 +54,7 @@ class Operation_table():
     
     """
 
-    def  _operations(self):
+    def _operations(self):
 
         #Buildings
 
@@ -73,6 +73,9 @@ class Operation_table():
                 pass
             else:
                 print('ERROR: None operation inserted')
+
+        def db_operations(self):
+            self._operations()
         
 
 

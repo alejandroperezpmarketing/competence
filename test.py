@@ -13,10 +13,10 @@ db.host="localhost"
 db.port=5432
 oit.table_type="buildings"
 oit.operation_type = "insert"
+oit.q ="insert into d.buildings (descripcion,area, geom) values (%s,st_area(st_geometryfromtext(%s,25830)),st_geometryfromtext(%s,25830)) returning gid"
 
 db.connectdb()
-
-oit.q ="insert into d.buildings (descripcion,area, geom) values (%s,st_area(st_geometryfromtext(%s,25830)),st_geometryfromtext(%s,25830)) returning gid"
+oit.
 
 ### SECOND STEP ¿WHICH TABLE DO I NEED TO USE?
 
