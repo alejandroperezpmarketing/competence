@@ -3,7 +3,7 @@ Created on 27 feb. 2024
 
 @author: vagrant
 '''
-
+import psycopg2
 import json
 
 class Conn():
@@ -76,4 +76,18 @@ class Conn():
     
     ######## CONNECT TO THE DATABASE
     
+    def _connectdb(self):
+        
+        global conn, cursor
+        
+        conn = psycopg2.connect(user=self._user, password=self._password, host=self._host, port=self._port, database=self._database)
+        
+        cursor = conn.cursor()
     
+    
+    
+    ## USER METHODS
+    
+    def connectdb(self):
+        
+        self._connectdb()
