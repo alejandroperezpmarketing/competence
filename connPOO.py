@@ -83,6 +83,8 @@ class Conn():
         conn = psycopg2.connect(user=self._user, password=self._password, host=self._host, port=self._port, database=self._database)
         
         cursor = conn.cursor()
+
+        return conn, cursor
     
     
     

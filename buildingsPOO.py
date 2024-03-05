@@ -5,6 +5,7 @@ Created on 27 feb. 2024
 '''
 from connPOO import Conn
 
+
 def insertBuilding(conn:Conn, descripcion, geomWkt)->int:
     q ="insert into d.buildings (descripcion,area, geom) values (%s,st_area(st_geometryfromtext(%s,25830)),st_geometryfromtext(%s,25830))"
     conn.cursor.execute(q,[descripcion,geomWkt, geomWkt])
