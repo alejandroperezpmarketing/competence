@@ -16,7 +16,7 @@ oit.operation_type = "insert"
 oit.q ="insert into d.buildings (descripcion,area, geom) values (%s,st_area(st_geometryfromtext(%s,25830)),st_geometryfromtext(%s,25830)) returning gid"
 
 db.connectdb()
-oit.
+oit.db_operations()
 
 ### SECOND STEP ¿WHICH TABLE DO I NEED TO USE?
 
