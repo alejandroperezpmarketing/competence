@@ -3,8 +3,7 @@ Created on 27 feb. 2024
 
 @author: vagrant
 '''
-import psycopg2
-import settings
+
 import json
 
 class Conn():
@@ -16,8 +15,6 @@ class Conn():
         self._port = None
         self._host = None
         self._database = None
-
-       
 
     def __repr__(self):
         report = {
@@ -74,4 +71,9 @@ class Conn():
     def _get_host(self):
         return self._port
     host = property(fget=_get_host,fset=_set_host)
-
+    
+    
+    
+    ######## CONNECT TO THE DATABASE
+    
+    
