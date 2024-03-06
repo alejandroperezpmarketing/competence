@@ -1,13 +1,12 @@
 from connPOO import Conn
 
 
-
 class Operation_table():
-    conn:Conn
+    
+    
     #Select betweet thre diferent tables
-    def __init__(self, conn:Conn) -> None:
+    def __init__(self) -> None:
         self._table_type = None
-        self.conn=conn
         self._q = None
         self._operationType = None
 
@@ -55,14 +54,22 @@ class Operation_table():
     """
 
     def _operations(self):
+        
+        def insert(self,descripcion, geomWkt, q)->int:
+            Conn._conn.cursor.execute(q,[descripcion,geomWkt, geomWkt])
+            Conn._conn.conn.commit()
+            gid = Conn._conn.cursor.fetchall()[0][0]
+            return {'ok':True,'message':f'Edificio insertado. gid: {gid}','data':[[gid]]}
 
         #Buildings
+        
+        """
 
         if self._table_type.UPPER() in ["buildings"]:
             if self._operationType.UPPER() == "INSERT":
 
                 def insert(self,descripcion, geomWkt, q)->int:
-                    self.conn.cursor.execute(q,[descripcion,geomWkt, geomWkt])
+                    self._conn.cursor.execute(q,[descripcion,geomWkt, geomWkt])
                     self.conn.conn.commit()
                     gid = self.conn.cursor.fetchall()[0][0]
                     return {'ok':True,'message':f'Edificio insertado. gid: {gid}','data':[[gid]]}
@@ -73,9 +80,10 @@ class Operation_table():
                 pass
             else:
                 print('ERROR: None operation inserted')
+            """
 
         def db_operations(self):
-            self._operations()
+            return self._operations()
         
 
 

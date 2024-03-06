@@ -15,6 +15,8 @@ class Conn():
         self._port = None
         self._host = None
         self._database = None
+        self._conn = None
+        self._cursor = None
 
     def __repr__(self):
         report = {
@@ -78,13 +80,13 @@ class Conn():
     
     def _connectdb(self):
         
-        global conn, cursor
+        global cursor
         
-        conn = psycopg2.connect(user=self._user, password=self._password, host=self._host, port=self._port, database=self._database)
+        self._conn = psycopg2.connect(user=self._user, password=self._password, host=self._host, port=self._port, database=self._database)
         
-        cursor = conn.cursor()
+        self._cursor = self._conn.cursor()
 
-        return conn, cursor
+        return self._conn, self._cursor
     
     
     
@@ -93,3 +95,5 @@ class Conn():
     def connectdb(self):
         
         self._connectdb()
+        print('Connection successful')
+        self._conn.close()
