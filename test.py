@@ -14,12 +14,19 @@ db.host="localhost"
 db.port=5432
 oit.table_type="buildings"
 oit.operation_type = "insert"
-oit.q =f"{oit._operationType} into d.{oit._table_type} (descripcion,area, geom) values (%s,st_area(st_geometryfromtext(%s,25830)),st_geometryfromtext(%s,25830)) returning gid"
+db.q ="CREATE TABLE public.test (id serial PRIMARY KEY, num integer, data varchar);"
 
-db.connectdb()
-oit._operations()
+db.execute()
 
+#oit._operations()
+#q = "create schema project"
+#q1 = "create table project.buildings (gid serial primary key,description varchar)"
 
+#db._conn.cursor.execute(q)
+#db._conn.conn.commit()
+#gid = db._conn.cursor.fetchall()[0][0]
+#message = {'ok':True,'message':f'Edificio insertado. gid: {gid}','data':[[gid]]}
+#print(message)
 
 ### SECOND STEP ¿WHICH TABLE DO I NEED TO USE?
 

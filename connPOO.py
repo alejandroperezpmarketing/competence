@@ -17,6 +17,7 @@ class Conn():
         self._database = None
         self._conn = None
         self._cursor = None
+        self._q = None
 
     def __repr__(self):
         report = {
@@ -74,7 +75,16 @@ class Conn():
         return self._host
     host = property(fget=_get_host,fset=_set_host)
     
+     # select text
+
+    def _set_q(self, code):
+        self._q = code
     
+    def _get_q(self):
+        return self._q
+    
+    q = property(fget=_get_q, fset=_set_q)
+
     
     ######## CONNECT TO THE DATABASE
     
@@ -84,16 +94,29 @@ class Conn():
         
         self._conn = psycopg2.connect(user=self._user, password=self._password, host=self._host, port=self._port, database=self._database)
         
-        self._cursor = self._conn.cursor()
+        
+        return self._conn
 
-        return self._conn, self._cursor
-    
     
     
     ## USER METHODS
-    
-    def connectdb(self):
+
+    def _operation(self):
+        self._cursor = self._conn.cursor()
+
+        if self._q == None:
+            print("Insert a operation to do")
+        else:
+            self._cursor.execute(self._q)
+
+    def _closedb(self):
+        self._conn.close()
+
+    def execute(self):
         
         self._connectdb()
+        self._operation()
+        self._closedb()
         print('Connection successful')
-        self._conn.close()
+        
+    
