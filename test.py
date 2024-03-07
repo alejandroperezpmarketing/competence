@@ -17,9 +17,9 @@ db.db_create = 'test'
 
 
 db.connect()
-db.check_db_availability()
+#db.check_db_availability()
 
-operation.insert_in_table()
+#operation.insert_in_table()
 #db.createdb()
 
 
