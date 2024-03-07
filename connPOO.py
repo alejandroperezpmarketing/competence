@@ -18,6 +18,7 @@ class Conn():
         self._conn = None
         self._cursor = None
         self._q = None
+        self._databases_list = None
 
     def __repr__(self):
         report = {
@@ -110,9 +111,10 @@ class Conn():
             self._cursor.execute(self._q)
 
     def _closedb(self):
-        self._conn.close()
+        with self._conn as curs:
+            curs.close()
 
-    def _createdb(self):
+    def _check_db_availability(self):
         # 1.  get a list of databases on the server
 
         databases_list = []
@@ -121,23 +123,60 @@ class Conn():
             curs.execute(db_list)
             for db in curs.fetchall():
                 datname = db[0]
-                databases_list.append(datname)
-        print(databases_list)
-        return databases_list
+                databases_list.append(datname.upper())
+        self._databases_list = databases_list
+
+        # 2. check the availability
+
+        if self._database.upper() not in self._databases_list == False:
+            print('not in')
+            #print(create_q)
+            with self._conn.cursor() as curs:
+                
+                self._check_db_availability()
+                print(f'ERROR: database {self._database} needs to be created. Prease do db.createdb()')
+                
+        else:
+            print(f'The database is on the server. Database list:{self._databases_list}')
+        return self._databases_list
+        #print(self._databases_list)
+        return self._databases_list
+
+
+    def _createdb(self):
+        self._check_db_availability()
+
+        #print(self._database)
+        #2. if self._database is not in databases_list  f'createdb {self._database} values (gid serial primary key)'
+        ###############
+        #print(self._database.upper())
+        #print(self._databases_list)
+        #print(self._database.upper() in self._databases_list)
+        
+        if self._database in self._databases_list() == False:
+            create_q = f'createdb {self._database}'
+            #print(create_q)
+            with self._conn.cursor() as curs:
+                curs.execute(create_q)
+                self._closedb
+        ###############
+        
         
     
     # USER METHODS
         
-    def execute_connection(self):
+    def _execute_connection(self):
         
         self._connectdb()
     
+    def check_db_availability(self):
+        self._check_db_availability()
     def createdb(self):
         self._createdb()
 
-
+    def connect(self):
+        self._execute_connection()
         
-
         #########**************
         #verify the conection is success
         if self._connectdb():
@@ -147,7 +186,8 @@ class Conn():
             print('False')
 
         ####***************
-        
+    def closedb(self):
+        self._closedb()
         
         
     

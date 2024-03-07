@@ -13,5 +13,6 @@ db.host="localhost"
 db.port=5432
 
 
-db.execute_connection()
-db.createdb()
+db.connect()
+db.check_db_availability()
+
