@@ -99,7 +99,7 @@ class Conn():
 
     
     
-    ## USER METHODS
+    ## SYSTEM METHODS ************
 
     def _operation(self):
         self._cursor = self._conn.cursor()
@@ -112,11 +112,42 @@ class Conn():
     def _closedb(self):
         self._conn.close()
 
-    def execute(self):
+    def _createdb(self):
+        # 1.  get a list of databases on the server
+
+        databases_list = []
+        db_list =  "SELECT datname FROM pg_database"
+        with self._conn.cursor() as curs:
+            curs.execute(db_list)
+            for db in curs.fetchall():
+                datname = db[0]
+                databases_list.append(datname)
+        print(databases_list)
+        return databases_list
+        
+    
+    # USER METHODS
+        
+    def execute_connection(self):
         
         self._connectdb()
-        self._operation()
-        self._closedb()
-        print('Connection successful')
+    
+    def createdb(self):
+        self._createdb()
+
+
+        
+
+        #########**************
+        #verify the conection is success
+        if self._connectdb():
+            print('True: Connection successful')
+            print(f'Conection info : {self._conn}')
+        else:
+            print('False')
+
+        ####***************
+        
+        
         
     

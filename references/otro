@@ -6,3 +6,13 @@ self.conn = psycopg2.connect(database=settings.DATABASE,
                       port=settings.PORT)
         
 self.cursor=self.conn.cursor()
+
+
+
+ #2. if self._database is not in databases_list  f'createdb {self._database} values (gid serial primary key)'
+        if self._database not in databases_list():
+            create_q = f'createdb {self._database} values (gid serial primary key)'
+            print(create_q)
+            #with self._conn.cursor() as curs:
+            #    curs.execute(create_q)
+            #    self._closedb
