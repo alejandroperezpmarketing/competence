@@ -16,3 +16,51 @@ self.cursor=self.conn.cursor()
             with self._conn.cursor() as curs:
                 curs.execute(create_q)
                 self._closedb
+
+ def _createdb(self):
+        create_q = f'createdb {self._db_create}'
+        print(create_q)
+        """
+        with self._conn.cursor() as curs:
+            curs.execute(create_q)
+            self._check_db_availability()
+            self._closedb
+        """
+
+        
+        
+        #print(self._database)
+        #2. if self._database is not in databases_list  f'createdb {self._database} values (gid serial primary key)'
+        ###############
+        #print(self._database.upper())
+        #print(self._databases_list)
+        #print(self._database.upper() in self._databases_list)
+        """
+        if self._database in self._databases_list() == False:
+            create_q = f'createdb {db_create}'
+            #print(create_q)
+            with self._conn.cursor() as curs:
+                curs.execute(create_q)
+                self._closedb
+
+        """
+        ###############
+        
+
+
+        """
+        # 2. check the availability
+
+        if self._database.upper() not in self._databases_list == False:
+            print('not in')
+            #print(create_q)
+            with self._conn.cursor() as curs:
+                
+                self._check_db_availability()
+                print(f'ERROR: database {self._database} needs to be created. Prease do db.createdb()')
+                
+        else:
+            print(f'The database is on the server. Database list:{self._databases_list}')
+            """
+        return self._databases_list
+        print(self._databases_list)

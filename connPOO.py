@@ -19,6 +19,7 @@ class Conn():
         self._cursor = None
         self._q = None
         self._databases_list = None
+        self._db_create = None
 
     def __repr__(self):
         report = {
@@ -86,7 +87,16 @@ class Conn():
     
     q = property(fget=_get_q, fset=_set_q)
 
+    #  Create database
+
+    def _set_db_create(self, code):
+        self._db_create = code
     
+    def _get_db_create(self):
+        return self._db_create
+    
+    db_create = property(fget=_get_db_create, fset=_set_db_create)
+
     ######## CONNECT TO THE DATABASE
     
     def _connectdb(self):
@@ -114,6 +124,8 @@ class Conn():
         with self._conn as curs:
             curs.close()
 
+        
+
     def _check_db_availability(self):
         # 1.  get a list of databases on the server
 
@@ -125,43 +137,10 @@ class Conn():
                 datname = db[0]
                 databases_list.append(datname.upper())
         self._databases_list = databases_list
-
-        # 2. check the availability
-
-        if self._database.upper() not in self._databases_list == False:
-            print('not in')
-            #print(create_q)
-            with self._conn.cursor() as curs:
-                
-                self._check_db_availability()
-                print(f'ERROR: database {self._database} needs to be created. Prease do db.createdb()')
-                
-        else:
-            print(f'The database is on the server. Database list:{self._databases_list}')
-        return self._databases_list
-        #print(self._databases_list)
+        print(self._databases_list)
         return self._databases_list
 
-
-    def _createdb(self):
-        self._check_db_availability()
-
-        #print(self._database)
-        #2. if self._database is not in databases_list  f'createdb {self._database} values (gid serial primary key)'
-        ###############
-        #print(self._database.upper())
-        #print(self._databases_list)
-        #print(self._database.upper() in self._databases_list)
-        
-        if self._database in self._databases_list() == False:
-            create_q = f'createdb {self._database}'
-            #print(create_q)
-            with self._conn.cursor() as curs:
-                curs.execute(create_q)
-                self._closedb
-        ###############
-        
-        
+   
     
     # USER METHODS
         
@@ -171,6 +150,7 @@ class Conn():
     
     def check_db_availability(self):
         self._check_db_availability()
+    
     def createdb(self):
         self._createdb()
 
@@ -191,3 +171,65 @@ class Conn():
         
         
     
+class Table_operations():
+
+    def __init__(self,tablename:str,conn:Conn) -> None:
+
+        self._X = None
+        self._Y = None
+        self._Z = None
+        self._M = None
+        self._EPSG = None
+        self._operationtype = None
+        self._tablename = tablename
+        self._conn:Conn=conn
+
+        
+
+
+   
+    def insertintable(self, descripcion, geomWkt)->int:
+        
+        q =f"insert into project.{self._tablename} (descripcion,area, geom) values (%s,st_area(st_geometryfromtext(%s,25830)),st_geometryfromtext(%s,25830))"
+        with self._conn.cursor() as curs:
+            curs.cursor.execute(q,[descripcion,geomWkt, geomWkt])
+            curs.conn.commit()
+ 
+    """
+    #1 funcion que haga seleccione u tipo de tablas polygon, lines, points, values
+
+    ###### ********* POINT
+
+    POINT(X,Y)
+
+    ###### ********* LINES
+
+    ('LineString(X,Y)')
+
+    ###### ********* POLYGON
+
+    ('POLYGON((X,Y))')
+
+    
+
+
+
+
+
+
+    #2 . funcion que me haga una de las 4 operaciones
+
+    insertar  -- INSERT
+    seleccionar -- SELECT
+    eliminar -- DELETE
+    actualizar -- UPDATE
+    """
+conn=Conn()
+w = Table_operations(tablename='Buildings',conn=conn)
+w.insertintable(descripcion='test',geomWkt='test')
+
+
+
+
+
+
